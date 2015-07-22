@@ -1,23 +1,14 @@
+# Basic settings
 library(shiny)
-
-# Plotting 
 library(ggplot2)
 library(rCharts)
 library(ggvis)
-
-# Data processing libraries
 library(data.table)
 library(reshape2)
 library(dplyr)
-
-# Required by includeMarkdown
 library(markdown)
-
-# It has to loaded to plot ggplot maps on shinyapps.io
 library(mapproj)
 library(maps)
-
-# Load helper functions
 source("helpers.R", local = TRUE)
 
 # Load data
@@ -51,22 +42,18 @@ shinyServer(function(input, output, session) {
     
     # Preapre datasets
     
-    # Prepare dataset for maps
     dt.agg <- reactive({
         aggregate_by_state(dt, input$range[1], input$range[2], input$evtypes)
     })
     
-    # Prepare dataset for time series
     dt.agg.year <- reactive({
         aggregate_by_year(dt, input$range[1], input$range[2], input$evtypes)
     })
     
-    # Prepare dataset for downloads
     dataTable <- reactive({
         prepare_downolads(dt.agg())
     })
     
-    # Render Plots
     
     # Population impact by state
     output$populationImpactByState <- renderPlot({
